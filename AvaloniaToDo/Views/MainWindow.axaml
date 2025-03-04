@@ -1,0 +1,91 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="using:AvaloniaToDo.ViewModels"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="AvaloniaToDo.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="AvaloniaToDo">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+	<Grid x:Name="MainGrid">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="Auto"/>
+			<ColumnDefinition Width="*"/>
+		</Grid.ColumnDefinitions>
+
+		<!-- Левая панель: список задач -->
+		<ListBox
+            x:Name="TaskCollectionMW"
+			Background="DarkOliveGreen"
+            Grid.Column="0"
+            ItemsSource="{Binding ItemsObservableCollectionVM}"
+            SelectedItem="{Binding SelectedTask}">
+
+			<ListBox.ItemTemplate>
+				<DataTemplate>
+					<StackPanel>
+						<TextBlock Text="{Binding Title}" FontWeight="Bold"/>
+					</StackPanel>
+				</DataTemplate>
+			</ListBox.ItemTemplate>
+		</ListBox>
+		<Button x:Name="AddTaskButtonMW"
+				Content="AddTask"
+				VerticalAlignment="Bottom"
+				Command="{Binding OpenAddTaskWindowCommand}"/>
+
+		<!-- Правая панель: детали задачи -->
+		<DockPanel x:Name="RightPanelMW"
+                   Grid.Column="1"
+                   Background="DarkGreen">
+			<!-- Заголовок задачи -->
+			<TextBox x:Name="InputTitleMW"
+                     DockPanel.Dock="Top"
+                     Height="30"
+                     Text="{Binding SelectedTask.Title}"
+                     FontSize="16"
+                     FontWeight="Bold"
+                     Margin="10"/>
+
+			<!-- Описание задачи -->
+			<TextBox x:Name="InputDescriptionMW"
+                      DockPanel.Dock="Top"
+                      Text="{Binding SelectedTask.Description}"
+                      Margin="10"
+                      Height="100"
+                      AcceptsReturn="True"
+                      TextWrapping="Wrap"/>
+
+			<!-- Нижняя панель: отметка о выполнении и кнопка удаления -->
+			<Grid DockPanel.Dock="Bottom"
+                  Margin="10">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*"/>
+					<ColumnDefinition Width="Auto"/>
+					<ColumnDefinition Width="Auto"/>
+				</Grid.ColumnDefinitions>
+
+				<!-- Отметка о выполнении -->
+				<CheckBox x:Name="IsCompleted"
+                          Grid.Column="0"
+                          IsChecked="{Binding SelectedTask.IsCompleted}"
+                          Content="Completed"
+                          VerticalAlignment="Center"
+                          Margin="0,0,10,0"/>
+
+				<!-- Кнопка удаления -->
+				<Button x:Name="DeleteButtonMW"
+                        Grid.Column="2"
+                        Content="Delete"
+                        Command="{Binding}"
+                        VerticalAlignment="Center"/>
+			</Grid>
+		</DockPanel>
+	</Grid>
+</Window>

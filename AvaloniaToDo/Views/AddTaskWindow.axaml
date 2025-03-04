@@ -1,0 +1,42 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:vm="using:AvaloniaToDo.ViewModels" 
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="400"
+        x:Class="AvaloniaToDo.Views.AddTaskWindow"
+		x:DataType="vm:AddTaskViewModel"
+        Title="AddTaskWindow"
+		Background="Transparent"
+		CornerRadius="30">
+	<Border x:Name="PopUpWindow"
+			Background="Gray">
+		<Grid>
+
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="Auto"/>
+		</Grid.RowDefinitions>
+
+		<TextBox x:Name="TaskTitle"
+				 Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}"
+                 Grid.Row="0"
+                 Margin="20,20,20,10"
+                 Watermark="Введите текст заголовка..."/>
+
+		<TextBox x:Name="Description"
+                 Grid.Row="1"
+                 Margin="10,10,10,5"
+                 Watermark="Подробно опишите задачу..."
+                 AcceptsReturn="True" TextWrapping="Wrap"/>
+
+		<Button x:Name="AddTaskButton"
+                Grid.Row="2"
+                Content="AddNewTask"
+                Margin="10,5,10,20"
+                HorizontalAlignment="Stretch"
+			    Command="{Binding AddTaskCommand}"/>
+		</Grid>
+	</Border>
+</Window>
