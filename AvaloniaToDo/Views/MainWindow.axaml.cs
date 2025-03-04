@@ -37,7 +37,7 @@ namespace AvaloniaToDo.Views
         {
             var addTaskWindow = new AddTaskWindow
             {
-                DataContext = null
+                DataContext = new AddTaskViewModel()
             };
             addTaskWindow.ShowDialog(this); // Открываем модально относительно MainWindow
         }

@@ -6,6 +6,7 @@ using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 
 namespace AvaloniaToDo.ViewModels
 {
@@ -27,6 +28,7 @@ namespace AvaloniaToDo.ViewModels
 
         private void ExecuteOpenAddTaskWindowCommand()
         {
+            Debug.WriteLine("Вызов ивента прошел");
             OpenAddTaskWindowRequested?.Invoke(this, EventArgs.Empty);
         }
 

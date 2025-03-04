@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,14 +19,23 @@ namespace AvaloniaToDo.ViewModels
         public AddTaskViewModel()
         {
             AddTaskCommand = new RelayCommand(ExecuteAddTaskCommand, CanExecuteAddTaskCommand);
+            PropertyChanged += (s, e) =>
+            {
+                if (e.PropertyName == nameof(Title))
+                {
+                    AddTaskCommand.NotifyCanExecuteChanged();
+                }
+            };
         }
         private void ExecuteAddTaskCommand()
         {
             // Логика добавления задачи (пока пустая, добавим позже)
+            Debug.WriteLine("Задача добавлена: " + Title);
         }
 
         private bool CanExecuteAddTaskCommand()
         {
+            Debug.WriteLine("Проверка CanExecute: " + Title);
             return !string.IsNullOrEmpty(Title); 
         }
     }
