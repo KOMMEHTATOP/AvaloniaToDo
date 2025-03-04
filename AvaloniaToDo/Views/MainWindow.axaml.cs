@@ -9,17 +9,7 @@ namespace AvaloniaToDo.Views
 {
     public partial class MainWindow : Window
     {
-        private MainWindowViewModel ViewModel
-        {
-            get
-            {
-                if (DataContext is null)
-                {
-                    throw new InvalidOperationException("DataContext is null.");
-                }
-                return (MainWindowViewModel)DataContext;
-            }
-        }
+        private MainWindowViewModel ViewModel => (MainWindowViewModel)DataContext!;
 
         public MainWindow()
         {

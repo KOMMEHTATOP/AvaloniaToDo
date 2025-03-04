@@ -28,7 +28,6 @@ namespace AvaloniaToDo.ViewModels
 
         private void ExecuteOpenAddTaskWindowCommand()
         {
-            Debug.WriteLine("Вызов ивента прошел");
             OpenAddTaskWindowRequested?.Invoke(this, EventArgs.Empty);
         }
 
