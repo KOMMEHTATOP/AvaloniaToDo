@@ -4,6 +4,7 @@ using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using AvaloniaToDo.ViewModels;
 using System;
+using System.Diagnostics;
 
 namespace AvaloniaToDo.Views
 {
@@ -25,11 +26,18 @@ namespace AvaloniaToDo.Views
 
         private void OpenAddTaskWindow(object? sender, System.EventArgs e)
         {
-            var addTaskWindow = new AddTaskWindow
+            if (e is OpenAddTaskWindowEventArgs args)
             {
-                DataContext = new AddTaskViewModel()
-            };
-            addTaskWindow.ShowDialog(this); // Открываем модально относительно MainWindow
+                var addTaskWindow = new AddTaskWindow
+                {
+                    DataContext = args.ViewModel
+                };
+                addTaskWindow.ShowDialog(this);
+            }
+            else
+            {
+                Debug.WriteLine("Ошибка: аргументы события не содержат вьюмодель");
+            }
         }
     }
 }

@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -13,24 +14,20 @@ namespace AvaloniaToDo.ViewModels
     {
         [ObservableProperty]
         private string _title = string.Empty;
-
+        [ObservableProperty]
+        private string _description = string.Empty;
+        
         public IRelayCommand AddTaskCommand { get; }
-
+        public event EventHandler<(string Title, string Description)>? TaskAdded;
         public AddTaskViewModel()
         {
             AddTaskCommand = new RelayCommand(ExecuteAddTaskCommand, CanExecuteAddTaskCommand);
-            PropertyChanged += (s, e) =>
-            {
-                if (e.PropertyName == nameof(Title))
-                {
-                    AddTaskCommand.NotifyCanExecuteChanged();
-                }
-            };
+            PropertyChanged += OnPropertyChanged;
         }
+        
         private void ExecuteAddTaskCommand()
         {
-            // Логика добавления задачи (пока пустая, добавим позже)
-            Debug.WriteLine("Задача добавлена: " + Title);
+            TaskAdded?.Invoke(this, (Title, Description));
         }
 
         private bool CanExecuteAddTaskCommand()
@@ -38,5 +35,15 @@ namespace AvaloniaToDo.ViewModels
             Debug.WriteLine("Проверка CanExecute: " + Title);
             return !string.IsNullOrEmpty(Title); 
         }
+        
+        private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(Title))
+            {
+                AddTaskCommand.NotifyCanExecuteChanged();
+                Debug.WriteLine("Title изменился, обновлено состояние команды");
+            }
+        }
+        
     }
 }

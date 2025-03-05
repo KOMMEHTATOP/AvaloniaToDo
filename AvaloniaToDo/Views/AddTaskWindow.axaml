@@ -1,8 +1,6 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:vm="using:AvaloniaToDo.ViewModels" 
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         x:Class="AvaloniaToDo.Views.AddTaskWindow"
 		x:DataType="vm:AddTaskViewModel"
         Title="AddTaskWindow"
@@ -36,7 +34,7 @@
                 Grid.Row="2"
                 Content="AddNewTask"
                 Margin="10,5,10,20"
-                HorizontalAlignment="Stretch"
+                HorizontalAlignment="Center"
 			    Command="{Binding AddTaskCommand}"/>
 		</Grid>
 	</Border>

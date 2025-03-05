@@ -16,19 +16,22 @@ namespace AvaloniaToDo.ViewModels
         private ToDoItem _selectedTask = new ToDoItem("Default Task");
         public ObservableCollection<ToDoItem> ItemsObservableCollectionVM { get; set; } = new();
         public IRelayCommand OpenAddTaskWindowCommand { get; }
-        public event EventHandler? OpenAddTaskWindowRequested;
+        public event EventHandler<OpenAddTaskWindowEventArgs>? OpenAddTaskWindowRequested;
         public MainWindowViewModel()
         {
-            ItemsObservableCollectionVM.Add(new ToDoItem("Task1"));
-            ItemsObservableCollectionVM.Add(new ToDoItem("Task2"));
-            ItemsObservableCollectionVM.Add(new ToDoItem("Task3"));
-
             OpenAddTaskWindowCommand = new RelayCommand(ExecuteOpenAddTaskWindowCommand);
         }
 
         private void ExecuteOpenAddTaskWindowCommand()
         {
-            OpenAddTaskWindowRequested?.Invoke(this, EventArgs.Empty);
+            var addTaskVM = new AddTaskViewModel();
+            addTaskVM.TaskAdded += OnTaskAdded; 
+            OpenAddTaskWindowRequested?.Invoke(this, new OpenAddTaskWindowEventArgs(addTaskVM));
+        }
+        private void OnTaskAdded(object? sender, (string Title, string Description) e)
+        {
+            AddItem(e.Title, e.Description);
+            Debug.WriteLine($"Задача добавлена: Title={e.Title} Description={e.Description}");
         }
 
         public void AddItem(string titleTask, string description)
