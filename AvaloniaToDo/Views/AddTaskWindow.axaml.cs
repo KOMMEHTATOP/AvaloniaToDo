@@ -11,5 +11,6 @@ public partial class AddTaskWindow : Window
     {
         InitializeComponent();
         DataContext = new AddTaskViewModel();
+        
     }
 }

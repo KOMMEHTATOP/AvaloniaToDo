@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Avalonia.Controls;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
@@ -32,7 +33,6 @@ namespace AvaloniaToDo.ViewModels
 
         private bool CanExecuteAddTaskCommand()
         {
-            Debug.WriteLine("Проверка CanExecute: " + Title);
             return !string.IsNullOrEmpty(Title); 
         }
         
@@ -41,7 +41,6 @@ namespace AvaloniaToDo.ViewModels
             if (e.PropertyName == nameof(Title))
             {
                 AddTaskCommand.NotifyCanExecuteChanged();
-                Debug.WriteLine("Title изменился, обновлено состояние команды");
             }
         }
         

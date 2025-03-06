@@ -19,13 +19,16 @@
 		</Grid.RowDefinitions>
 
 		<TextBox x:Name="TaskTitle"
-				 Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}"
+				 Text="{Binding Title, 
+				 UpdateSourceTrigger=PropertyChanged}"
                  Grid.Row="0"
                  Margin="20,20,20,10"
                  Watermark="Введите текст заголовка..."/>
 
 		<TextBox x:Name="Description"
                  Grid.Row="1"
+                 Text="{Binding Description, 
+                 UpdateSourceTrigger=PropertyChanged}"
                  Margin="10,10,10,5"
                  Watermark="Подробно опишите задачу..."
                  AcceptsReturn="True" TextWrapping="Wrap"/>
