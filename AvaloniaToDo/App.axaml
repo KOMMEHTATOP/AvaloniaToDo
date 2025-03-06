@@ -2,8 +2,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="AvaloniaToDo.App"
              xmlns:local="using:AvaloniaToDo"
+             xmlns:converters="clr-namespace:AvaloniaToDo.Converters"
              RequestedThemeVariant="Default">
-
+<Application.Resources>
+    <converters:BoolToTextDecoratorConverter x:Key="BoolToTextDecoratorConverter"/>
+</Application.Resources>
     <Application.DataTemplates>
         <local:ViewLocator/>
     </Application.DataTemplates>

@@ -27,9 +27,9 @@
 
 			<ListBox.ItemTemplate>
 				<DataTemplate>
-					<StackPanel>
-						<TextBlock Text="{Binding Title}" FontWeight="Bold"/>
-					</StackPanel>
+						<TextBlock Text="{Binding Title}" FontWeight="Bold"
+						           TextDecorations="{Binding IsCompleted, 
+						           Converter={StaticResource BoolToTextDecoratorConverter}}"/>
 				</DataTemplate>
 			</ListBox.ItemTemplate>
 		</ListBox>

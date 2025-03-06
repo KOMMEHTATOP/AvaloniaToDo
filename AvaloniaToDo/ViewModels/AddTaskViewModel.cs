@@ -29,6 +29,8 @@ namespace AvaloniaToDo.ViewModels
         private void ExecuteAddTaskCommand()
         {
             TaskAdded?.Invoke(this, (Title, Description));
+            Title = string.Empty;
+            Description = string.Empty;
         }
 
         private bool CanExecuteAddTaskCommand()
