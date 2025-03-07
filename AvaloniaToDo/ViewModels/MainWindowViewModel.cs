@@ -1,13 +1,10 @@
-﻿using Avalonia.Controls;
+﻿using Avalonia.Collections;
 using AvaloniaToDo.Models;
-using AvaloniaToDo.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
 
 namespace AvaloniaToDo.ViewModels
@@ -16,7 +13,18 @@ namespace AvaloniaToDo.ViewModels
     {
         [ObservableProperty]
         private ToDoItem _selectedTask = new ToDoItem("Default Task");
-        public ObservableCollection<ToDoItem> ItemsObservableCollectionVM { get; set; } = new();
+        private bool _showOnlyCompletedTasks;
+        public bool ShowOnlyCompletedTasks
+        {
+            get => _showOnlyCompletedTasks;
+            set
+            {
+                this.SetProperty(ref _showOnlyCompletedTasks, value);
+                FilteredTasksView.Refresh();
+            }
+        }        
+        public DataGridCollectionView FilteredTasksView { get; }
+        public ObservableCollection<ToDoItem> ItemsObservableCollectionVm { get; set; } = new();
         public IRelayCommand OpenAddTaskWindowCommand { get; }
         public IRelayCommand DeleteTask { get; }
         public event EventHandler<OpenAddTaskWindowEventArgs>? OpenAddTaskWindowRequested;
@@ -24,7 +32,11 @@ namespace AvaloniaToDo.ViewModels
         {
             OpenAddTaskWindowCommand = new RelayCommand(ExecuteOpenAddTaskWindowCommand);
             DeleteTask = new RelayCommand(ExecuteDeleteTaskCommand, CanExecuteDeleteTaskCommand);
-            ItemsObservableCollectionVM.CollectionChanged += OnCollectionChanged;
+            ItemsObservableCollectionVm.CollectionChanged += OnCollectionChanged;
+            FilteredTasksView = new DataGridCollectionView(ItemsObservableCollectionVm)
+            {
+                Filter = item =>!ShowOnlyCompletedTasks || !((ToDoItem)item).IsCompleted
+            };
         }
         private void OnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
@@ -32,30 +44,30 @@ namespace AvaloniaToDo.ViewModels
         }
         private bool CanExecuteDeleteTaskCommand()
         {
-            return ItemsObservableCollectionVM.Count > 0;
+            return ItemsObservableCollectionVm.Count > 0;
         }
         private void ExecuteDeleteTaskCommand()
         {
-            ItemsObservableCollectionVM.Remove(SelectedTask);
+            ItemsObservableCollectionVm.Remove(SelectedTask);
         }
 
         private void ExecuteOpenAddTaskWindowCommand()
         {
-            var addTaskVM = new AddTaskViewModel();
-            addTaskVM.TaskAdded += OnTaskAdded; 
-            OpenAddTaskWindowRequested?.Invoke(this, new OpenAddTaskWindowEventArgs(addTaskVM));
+            var addTaskVm = new AddTaskViewModel();
+            addTaskVm.TaskAdded += OnTaskAdded; 
+            OpenAddTaskWindowRequested?.Invoke(this, new OpenAddTaskWindowEventArgs(addTaskVm));
         }
         private void OnTaskAdded(object? sender, (string Title, string Description) e)
         {
             AddItem(e.Title, e.Description);
-            SelectedTask = ItemsObservableCollectionVM.Last();
+            SelectedTask = ItemsObservableCollectionVm.Last();
         }
 
-        public void AddItem(string titleTask, string description)
+        private void AddItem(string titleTask, string description)
         {
             if (!string.IsNullOrWhiteSpace(titleTask))
             {
-                ItemsObservableCollectionVM.Add(new ToDoItem(titleTask) { Description = description });
+                ItemsObservableCollectionVm.Add(new ToDoItem(titleTask) { Description = description });
             }
         }
     }

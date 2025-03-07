@@ -1,91 +1,106 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="using:AvaloniaToDo.ViewModels"
+        xmlns:models="using:AvaloniaToDo.Models" 
         x:Class="AvaloniaToDo.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
-		Width="600"
-		Height="400"
+        Width="600"
+        Height="400"
         Title="AvaloniaToDo">
-
+    
     <Design.DataContext>
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-	<Grid x:Name="MainGrid">
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="Auto"/>
-			<ColumnDefinition Width="*"/>
-		</Grid.ColumnDefinitions>
+    <Grid x:Name="MainGrid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
 
-		<!-- Левая панель: список задач -->
-		<ListBox
-            x:Name="TaskCollectionMW"
-			Background="DarkOliveGreen"
-            Grid.Column="0"
-            ItemsSource="{Binding ItemsObservableCollectionVM}"
-            SelectedItem="{Binding SelectedTask}">
+            <ToggleButton x:Name="ToggleButtonFilter"
+                          Grid.Row="0"
+                          IsChecked="{Binding ShowOnlyCompletedTasks, Mode=TwoWay}">
+                <ToggleButton.Styles>
+                    <Style Selector="ToggleButton">
+                        <Setter Property="Background" Value="Green"/>
+                        <Setter Property="Content" Value="Все задачи"/>
+                    </Style>
+                    <Style Selector="ToggleButton:checked">
+                        <Setter Property="Background" Value="Firebrick"/>
+                        <Setter Property="Content" Value="Не выполненные"/>
+                    </Style>
+                </ToggleButton.Styles>
+            </ToggleButton>
+            <ListBox x:Name="TaskCollectionMw"
+                    Background="DarkOliveGreen"
+                    Grid.Row="1"
+                    ItemsSource="{Binding FilteredTasksView}"
+                    SelectedItem="{Binding SelectedTask}">
+                <ListBox.ItemTemplate>
+                    <!-- Исправлен x:DataType на models:ToDoItem, так как ToDoItem в пространстве AvaloniaToDo.Models -->
+                    <DataTemplate x:DataType="models:ToDoItem">
+                        <TextBlock Text="{Binding Title}" 
+                                  FontWeight="Bold"
+                                  TextDecorations="{Binding IsCompleted, 
+                                  Converter={StaticResource BoolToTextDecoratorConverter}}"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            
+            <Button x:Name="AddTaskButtonMw"
+                   Grid.Row="2"
+                   Content="AddTask"
+                   Command="{Binding OpenAddTaskWindowCommand}"/>
+        </Grid>
 
-			<ListBox.ItemTemplate>
-				<DataTemplate>
-						<TextBlock Text="{Binding Title}" FontWeight="Bold"
-						           TextDecorations="{Binding IsCompleted, 
-						           Converter={StaticResource BoolToTextDecoratorConverter}}"/>
-				</DataTemplate>
-			</ListBox.ItemTemplate>
-		</ListBox>
-		<Button Grid.Column="0" x:Name="AddTaskButtonMW"
-		        Content="AddTask"
-		        VerticalAlignment="Bottom"
-		        Command="{Binding OpenAddTaskWindowCommand}"/>
+        <DockPanel x:Name="RightPanelMw"
+                  Grid.Column="1"
+                  Background="DarkGreen">
+            <TextBox x:Name="InputTitleMw"
+                    DockPanel.Dock="Top"
+                    Height="30"
+                    Text="{Binding SelectedTask.Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    FontSize="16"
+                    FontWeight="Bold"
+                    Margin="10"/>
 
-		<!-- Правая панель: детали задачи -->
-		<DockPanel x:Name="RightPanelMW"
-                   Grid.Column="1"
-                   Background="DarkGreen">
-			<!-- Заголовок задачи -->
-			<TextBox x:Name="InputTitleMW"
-                     DockPanel.Dock="Top"
-                     Height="30"
-                     Text="{Binding SelectedTask.Title,
-                     Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                     FontSize="16"
-                     FontWeight="Bold"
-                     Margin="10"/>
+            <TextBox x:Name="InputDescriptionMw"
+                    DockPanel.Dock="Top"
+                    Text="{Binding SelectedTask.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Margin="10"
+                    Height="100"
+                    AcceptsReturn="True"
+                    TextWrapping="Wrap"/>
 
-			<!-- Описание задачи -->
-			<TextBox x:Name="InputDescriptionMW"
-                      DockPanel.Dock="Top"
-                      Text="{Binding SelectedTask.Description,
-                      Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                      Margin="10"
-                      Height="100"
-                      AcceptsReturn="True"
-                      TextWrapping="Wrap"/>
+            <Grid DockPanel.Dock="Bottom"
+                 Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
 
-			<!-- Нижняя панель: отметка о выполнении и кнопка удаления -->
-			<Grid DockPanel.Dock="Bottom"
-                  Margin="10">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="*"/>
-					<ColumnDefinition Width="Auto"/>
-					<ColumnDefinition Width="Auto"/>
-				</Grid.ColumnDefinitions>
+                <CheckBox x:Name="IsCompleted"
+                         Grid.Column="0"
+                         IsChecked="{Binding SelectedTask.IsCompleted, Mode=TwoWay}"
+                         Content="Completed"
+                         VerticalAlignment="Center"
+                         Margin="0,0,10,0"/>
 
-				<!-- Отметка о выполнении -->
-				<CheckBox x:Name="IsCompleted"
-                          Grid.Column="0"
-                          IsChecked="{Binding SelectedTask.IsCompleted}"
-                          Content="Completed"
-                          VerticalAlignment="Center"
-                          Margin="0,0,10,0"/>
-
-				<!-- Кнопка удаления -->
-				<Button x:Name="DeleteButtonMW"
-                        Grid.Column="2"
-                        Content="Delete"
-                        Command="{Binding DeleteTask}"
-                        VerticalAlignment="Center"/>
-			</Grid>
-		</DockPanel>
-	</Grid>
+                <Button x:Name="DeleteButtonMw"
+                       Grid.Column="2"
+                       Content="Delete"
+                       Command="{Binding DeleteTask}"
+                       VerticalAlignment="Center"/>
+            </Grid>
+        </DockPanel>
+    </Grid>
 </Window>
