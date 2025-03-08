@@ -14,7 +14,7 @@
 
     <Grid x:Name="MainGrid">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" MinWidth="150" MaxWidth="250"/>
+            <ColumnDefinition Width="Auto" MinWidth="100" MaxWidth="200"/>
             <ColumnDefinition Width="4"/> <!-- Разделитель -->
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
@@ -33,6 +33,7 @@
                           Background="#4CAF50"
                           Foreground="White"
                           FontWeight="Bold"
+                          HorizontalAlignment="Center"
                           Margin="5">
                 <ToggleButton.Styles>
                     <Style Selector="ToggleButton">
@@ -50,16 +51,17 @@
                      Background="#374A5A"
                      ItemsSource="{Binding FilteredTasksView}"
                      SelectedItem="{Binding SelectedTask}"
-                     Margin="5">
+                     Margin="5"
+                     MaxWidth="180">
                 <ListBox.ItemTemplate>
                     <DataTemplate x:DataType="models:ToDoItem">
-                        <TextBlock Text="{Binding Title}" 
-                                   FontWeight="Bold"
-                                   Foreground="White"
-                                   TextWrapping="Wrap"
-                                   Margin="5"
-                                   TextDecorations="{Binding IsCompleted, 
-                                   Converter={StaticResource BoolToTextDecoratorConverter}}"/>
+                            <TextBlock Text="{Binding Title}" 
+                                       FontWeight="Bold"
+                                       Foreground="White"
+                                       TextTrimming="CharacterEllipsis"
+                                       TextWrapping="NoWrap"
+                                       TextDecorations="{Binding IsCompleted, 
+                                       Converter={StaticResource BoolToTextDecoratorConverter}}"/>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
@@ -71,6 +73,7 @@
                     Background="#2196F3"
                     Foreground="White"
                     FontWeight="Bold"
+                    HorizontalAlignment="Center"
                     Margin="5"/>
         </Grid>
 

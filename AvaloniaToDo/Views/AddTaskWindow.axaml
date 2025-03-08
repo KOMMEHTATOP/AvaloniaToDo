@@ -10,7 +10,6 @@
     
     <Border x:Name="PopUpWindow"
             Background="#2E3B4E"
-            CornerRadius="15"
             Padding="10">
         
         <Grid>
@@ -22,7 +21,8 @@
 
             <!-- Заголовок задачи -->
             <TextBox x:Name="TaskTitle"
-                     Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}"
+                     Text="{Binding Title, 
+                     UpdateSourceTrigger=PropertyChanged}"
                      Grid.Row="0"
                      Margin="10,10,10,5"
                      Watermark="Введите заголовок..."
@@ -34,7 +34,8 @@
             <!-- Описание задачи -->
             <TextBox x:Name="Description"
                      Grid.Row="1"
-                     Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"
+                     Text="{Binding Description, 
+                     UpdateSourceTrigger=PropertyChanged}"
                      Margin="10,5,10,5"
                      Watermark="Введите описание..."
                      AcceptsReturn="True"
@@ -50,6 +51,7 @@
                     Background="#2196F3"
                     Foreground="White"
                     FontWeight="Bold"
+                    HorizontalAlignment="Center"
                     Command="{Binding AddTaskCommand}"/>
         </Grid>
     </Border>
