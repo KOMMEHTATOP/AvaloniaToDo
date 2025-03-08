@@ -1,44 +1,56 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-		xmlns:vm="using:AvaloniaToDo.ViewModels" 
+        xmlns:vm="using:AvaloniaToDo.ViewModels" 
         x:Class="AvaloniaToDo.Views.AddTaskWindow"
-		x:DataType="vm:AddTaskViewModel"
-        Title="AddTaskWindow"
-		Background="Transparent"
-		CornerRadius="30"
-		Width="300"
-		Height="400">
-	<Border x:Name="PopUpWindow"
-			Background="Gray">
-		<Grid>
+        x:DataType="vm:AddTaskViewModel"
+        Title="Добавить задачу"
+        Background="Transparent"
+        Width="300"
+        Height="400">
+    
+    <Border x:Name="PopUpWindow"
+            Background="#2E3B4E"
+            CornerRadius="15"
+            Padding="10">
+        
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
 
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto"/>
-			<RowDefinition Height="*"/>
-			<RowDefinition Height="Auto"/>
-		</Grid.RowDefinitions>
+            <!-- Заголовок задачи -->
+            <TextBox x:Name="TaskTitle"
+                     Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}"
+                     Grid.Row="0"
+                     Margin="10,10,10,5"
+                     Watermark="Введите заголовок..."
+                     FontSize="16"
+                     FontWeight="Bold"
+                     Foreground="White"
+                     Background="#455A64"/>
 
-		<TextBox x:Name="TaskTitle"
-				 Text="{Binding Title, 
-				 UpdateSourceTrigger=PropertyChanged}"
-                 Grid.Row="0"
-                 Margin="20,20,20,10"
-                 Watermark="Введите текст заголовка..."/>
+            <!-- Описание задачи -->
+            <TextBox x:Name="Description"
+                     Grid.Row="1"
+                     Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"
+                     Margin="10,5,10,5"
+                     Watermark="Введите описание..."
+                     AcceptsReturn="True"
+                     TextWrapping="Wrap"
+                     Foreground="White"
+                     Background="#546E7A"/>
 
-		<TextBox x:Name="Description"
-                 Grid.Row="1"
-                 Text="{Binding Description, 
-                 UpdateSourceTrigger=PropertyChanged}"
-                 Margin="10,10,10,5"
-                 Watermark="Подробно опишите задачу..."
-                 AcceptsReturn="True" TextWrapping="Wrap"/>
-
-		<Button x:Name="AddTaskButton"
-                Grid.Row="2"
-                Content="AddNewTask"
-                Margin="10,5,10,20"
-                HorizontalAlignment="Center"
-			    Command="{Binding AddTaskCommand}"/>
-		</Grid>
-	</Border>
+            <!-- Кнопка добавления -->
+            <Button x:Name="AddTaskButton"
+                    Grid.Row="2"
+                    Content="Добавить задачу"
+                    Margin="10,5,10,10"
+                    Background="#2196F3"
+                    Foreground="White"
+                    FontWeight="Bold"
+                    Command="{Binding AddTaskCommand}"/>
+        </Grid>
+    </Border>
 </Window>
