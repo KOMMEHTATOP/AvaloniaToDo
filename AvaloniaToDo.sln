@@ -5,6 +5,8 @@ VisualStudioVersion = 17.13.35825.156 d17.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvaloniaToDo", "AvaloniaToDo\AvaloniaToDo.csproj", "{DF469E37-1C7D-462C-A2E0-32B62B15C916}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDoTestsAvalonia", "ToDoTestsAvalonia\ToDoTestsAvalonia.csproj", "{916A3C86-7C4E-4F4A-9CE5-71E0BE028A72}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{DF469E37-1C7D-462C-A2E0-32B62B15C916}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DF469E37-1C7D-462C-A2E0-32B62B15C916}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DF469E37-1C7D-462C-A2E0-32B62B15C916}.Release|Any CPU.Build.0 = Release|Any CPU
+		{916A3C86-7C4E-4F4A-9CE5-71E0BE028A72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{916A3C86-7C4E-4F4A-9CE5-71E0BE028A72}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{916A3C86-7C4E-4F4A-9CE5-71E0BE028A72}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{916A3C86-7C4E-4F4A-9CE5-71E0BE028A72}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

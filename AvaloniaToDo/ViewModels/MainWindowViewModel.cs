@@ -37,6 +37,14 @@ namespace AvaloniaToDo.ViewModels
             {
                 Filter = item =>!ShowOnlyCompletedTasks || !((ToDoItem)item).IsCompleted
             };
+            
+            ItemsObservableCollectionVm.Add(new ToDoItem("Убрать мусор") {Description = "ASDF", IsCompleted = true});
+            ItemsObservableCollectionVm.Add(new ToDoItem("Убрать мусор") {Description = "ASDF", IsCompleted = false});
+            ItemsObservableCollectionVm.Add(new ToDoItem("Убрать мусор") {Description = "ASDF", IsCompleted = true});
+            ItemsObservableCollectionVm.Add(new ToDoItem("Убрать мусор") {Description = "ASDF", IsCompleted = false});
+            ItemsObservableCollectionVm.Add(new ToDoItem("Убрать мусор") {Description = "ASDF", IsCompleted = true});
+            ItemsObservableCollectionVm.Add(new ToDoItem("Убрать мусор") {Description = "ASDF", IsCompleted = false});
+            ItemsObservableCollectionVm.Add(new ToDoItem("Убрать мусор") {Description = "ASDF", IsCompleted = true});
         }
         private void OnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
